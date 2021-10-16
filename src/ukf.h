@@ -30,6 +30,20 @@ class UKF {
   void Prediction(double delta_t);
 
   /**
+   * Subprocess of Predicts sigma points, project sigma points to the next time step
+   * using process model.
+   * @param Xsig_aug_  Augmented Sigma points matrix at time k, size (n_aug_, 2*n_aug_+1)
+   * @param delta_t Time between k and k+1 in s
+   */
+  void PredictSigmaPoints(const Eigen::MatrixXd& Xsig_aug_, double delta_t_);
+
+  /**
+   * After project Xsig_aug_ from time k to k+1, resulting Xsig_pred_, we now
+   * need to calculate its mean and covariance
+  */
+  void CalPredictMeanCov(void);
+
+  /**
    * Updates the state and the state covariance matrix using a laser measurement
    * @param meas_package The measurement at k+1
    */
@@ -58,11 +72,21 @@ class UKF {
   Eigen::MatrixXd P_;
 
   // predicted sigma points matrix
+  // Update in PredictSigmaPoints method
   Eigen::MatrixXd Xsig_pred_;
+ 
+  // Measurement noise covariance, for Radar
+  Eigen::MatrixXd R_rad_;
+
+  // Measurement noise covariance, for Lidar
+  Eigen::MatrixXd R_las_;
+
+  //  Measurement transformation matrix, for Lidar measurement
+  Eigen::MatrixXd H_;
 
   // time when the state is true, in us
   long long time_us_;
-
+  
   // Process noise standard deviation longitudinal acceleration in m/s^2
   double std_a_;
 
@@ -95,6 +119,13 @@ class UKF {
 
   // Sigma point spreading parameter
   double lambda_;
+
+  // Radar Measurement dimension [rho(m), phi(rad), rho_dot(m/s)]
+  int n_zrad_;
+
+  // Lidar Measurement dimension [px(m), py(m)]
+  int n_zlas_;
+
 };
 
 #endif  // UKF_H

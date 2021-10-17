@@ -67,9 +67,11 @@ class UKF {
 
   // state vector: [pos1 pos2 vel_abs yaw_angle yaw_rate] in SI units and rad
   Eigen::VectorXd x_;
+  Eigen::VectorXd x_pred_;
 
   // state covariance matrix
   Eigen::MatrixXd P_;
+  Eigen::MatrixXd P_pred_;
 
   // predicted sigma points matrix
   // Update in PredictSigmaPoints method

@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\author{Tawit Uthaicharoenpong}
+\title{UKF notes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+This document is to note down what I have done during working on this assignment.
+
+\section{UKF initialization}
+\subsection{Variance and Standard deviation}
+First thing we need to do is initialize the UKF class.
+Process noise in this project consisted of:
+
+\begin{itemize}
+    \item longitudinal accelation (aka. linear accelation), represent as variance \(\sigma^2_a\) 
+    with unit \( \frac{m^2}{s^4}\) or as standard deviation \(\sigma_a\) with unit \(\frac{m}{s^2}\)
+
+    \item yaw accelation (aka. angular acceleration), represent as variance \(\sigma^2_{\ddot{\varphi}}\)
+    with unit \(\frac{rad^2}{s^4}\) or as standard deviation \(\sigma_{\ddot{\varphi}}\) with unit \(\frac{rad}{s^2}\)
+\end{itemize}
+
+In the lesson, suggested starting value for linear accelation varince is \(\sigma^2_a = 9 \frac{m^2}{s^4}\) which means we expected linear accelation within range \(\pm 2\sigma_a\) or from \(-6\frac{m}{s^2}\) to \(6\frac{m}{s^2} \rightarrow 
+\sigma_a = 3\).\\
+
+For angular acceleration I would start with \(\sigma^2_{\ddot{\varphi}}\) = 1.5\(\frac{rad^2}{s^4}\) or from 
+\(-1.22\frac{rad}{s^2}\) to \(1.22\frac{rad}{s^2} \rightarrow \sigma_{\ddot{\varphi}}=1.22\).\\
+
+% End subsection: Variance and Standard deviation
+
+\subsection{State dimension and lambda}
+\[
+State vector, x =
+\begin{bmatrix}
+p_x \\ p_y \\ v \\ \varphi \\ \ddot{\varphi}
+\end{bmatrix}
+\]
+
+Therefore, number of state, $n_x = 5$.\\
+
+For augmented state, we taken process noise into account:\\
+\[
+Augmented state vector, x_{aug} =
+\begin{bmatrix}
+p_x \\ p_y \\ v \\ \varphi \\ \ddot{\varphi} \\ \nu_a \\ \nu_{\ddot{\varphi}}
+\end{bmatrix}
+\]
+Therefore, number of augmented state dimention, $n_{aug} = 7$.\\
+
+Lambda, $\lambda$, is a design parameter with a rule-of-thumbs $\lambda = 3 - n_x$
+
+% End subsection: State dimension
+
+\subsection{Accents}
+\begin{equation} 
+    a^2 + b^2 = c^2 test
+\end{equation}
+
+\subsection{Dollar signs}
+
+    
+\end{document}
